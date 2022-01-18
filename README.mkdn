@@ -1,0 +1,22 @@
+# Akebi - Simple Bash System Information
+
+## Usage
+
+Simply type:
+```
+$ ./akebi
+```
+
+If you installed the script, just type:
+```
+$ akebi
+```
+
+You don;t know how to install this?!
+```
+$ sudo install akebi /bin/akebi
+```
+
+## Found somethinge weird?
+
+It's not a serious project of mine. So. if you found something retarded, feel free to open an issue or do a Pull-request!
