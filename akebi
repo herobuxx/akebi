@@ -1,18 +1,18 @@
 # CPU Info Variables
-CPU_MODEL="$(lscpu | sed -nr '/Model name/ s/.*:\s*(.*) @ .*/\1/p')"
+CPU_MODEL="$(lscpu | grep -oP 'Model name:\s*\K.+')"
 CPU_CORES="$(cat /proc/cpuinfo | grep processor | wc -l)"
-
-######################################################################################
-# CPU_THREADS="$(lscpu | egrep 'Thread\(s\)' | sed -r 's/^Thread\(s\) per core: //')"#
-# CPU_THREADS_TOTAL=$((CPU_THREADS * CPU_CORES))                                     #
-######################################################################################
-
+CPU_THREADS="$(lscpu | grep -oP 'Thread\(s\) per core:\s*\K.+')"
+CPU_THREADS_TOTAL="$(($CPU_THREADS * $CPU_CORES))"                                     #
 CPU_USAGE=$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage "%"}')
 MEM_TOTAL_RAW=$(grep MemTotal /proc/meminfo | sed -r 's/^MemTotal:       //' | sed -e 's/kB//')
 MEM_TOTAL=$((MEM_TOTAL_RAW / 1024))
 
+# System Info Variables
 SYS_TYPE=$(uname -m)
 SYS_REL=$(cat /etc/issue.net)
+
+# Network Info Variables
+PUBLIC_IP="$(dig +short myip.opendns.com @resolver1.opendns.com)"
 
 # The main interface
 echo -e "=========================================================="
@@ -25,4 +25,5 @@ echo -e "CPU Usage         :  $CPU_USAGE"
 echo -e "Memory Total      :  $MEM_TOTAL MB"
 echo -e "Installed System  :  $SYS_REL"
 echo -e "System Type       :  $SYS_TYPE"
+echo -e "Public IPA Addr   :  $PUBLIC_IP"
 echo -e "=========================================================="
