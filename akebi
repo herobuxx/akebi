@@ -26,6 +26,9 @@ SES_SHELL=${SHELL}
 # Machine Info Variables
 MACHINE_UPTIME=$(uptime -p | sed 's/up //')
 
+# Display Info Variables
+DISPLAY_RES=$(xdpyinfo  | grep -oP 'dimensions:\s+\K\S+')
+
 # The main interface
 echo -e "=========================================================="
 echo -e "                Akebi - System Information                "
@@ -42,4 +45,5 @@ echo -e "Public IPA Addr   :  ${PUBLIC_IP}"
 echo -e "Terminal          :  ${SES_TERM}"
 echo -e "Shell             :  ${SES_SHELL}"
 echo -e "Uptime            :  ${MACHINE_UPTIME}"
+echo -e "Screen Resolution :  ${DISPLAY_RES}"
 echo -e "=========================================================="
