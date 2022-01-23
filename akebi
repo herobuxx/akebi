@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # CPU Info Variables
 CPU_MODEL="$(lscpu | grep -oP 'Model name:\s*\K.+')"
 CPU_CORES="$(cat /proc/cpuinfo | grep processor | wc -l)"
@@ -5,7 +7,7 @@ CPU_THREADS="$(lscpu | grep -oP 'Thread\(s\) per core:\s*\K.+')"
 CPU_THREADS_TOTAL="$(($CPU_THREADS * $CPU_CORES))"                                     #
 CPU_USAGE=$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage "%"}')
 
-# Memory Info
+# Memory Info Variables
 MEM_TOTAL_RAW=$(grep MemTotal /proc/meminfo | sed -r 's/^MemTotal:       //' | sed -e 's/kB//')
 MEM_TOTAL=$((MEM_TOTAL_RAW / 1024))
 MEM_USAGE="$(free | grep Mem | awk '{print $3/$2 * 100.0}')"
