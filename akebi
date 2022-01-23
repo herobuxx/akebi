@@ -19,6 +19,13 @@ SYS_REL=$(cat /etc/issue.net)
 # Network Info Variables
 PUBLIC_IP="$(dig +short myip.opendns.com @resolver1.opendns.com)"
 
+# Session Info Variables
+SES_TERM=${TERM}
+SES_SHELL=${SHELL}
+
+# Machine Info Variables
+MACHINE_UPTIME=$(uptime -p | sed 's/up //')
+
 # The main interface
 echo -e "=========================================================="
 echo -e "                Akebi - System Information                "
@@ -32,4 +39,7 @@ echo -e "Memory Total      :  ${MEM_USAGE}%"
 echo -e "Installed System  :  ${SYS_REL}"
 echo -e "System Type       :  ${SYS_TYPE}"
 echo -e "Public IPA Addr   :  ${PUBLIC_IP}"
+echo -e "Terminal          :  ${SES_TERM}"
+echo -e "Shell             :  ${SES_SHELL}"
+echo -e "Uptime            :  ${MACHINE_UPTIME}"
 echo -e "=========================================================="
