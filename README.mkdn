@@ -1,22 +1,19 @@
 # Akebi - Simple Bash System Information
+It's a simple bash script to show informatiopn of your Linux System.
 
-## Usage
-
-Simply type:
-```
-$ ./akebi
-```
-
-If you installed the script, just type:
+## USage
+There's no special stuff yet. Just type:
 ```
 $ akebi
 ```
 
-You don;t know how to install this?!
+## Installation
+To install Akebi on your system, type:
 ```
-$ sudo install akebi /bin/akebi
+$ git clone https://github.com/herobuxx/akebi
+$ cd akebi
+$ bash install.sh
 ```
 
-## Found somethinge weird?
-
-It's not a serious project of mine. So. if you found something retarded, feel free to open an issue or do a Pull-request!
+## Contribute
+Feel free to contribute anytime you want! Feel free to do a Pull-request
