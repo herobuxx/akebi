@@ -14,7 +14,7 @@ MEM_USAGE="$(free | grep Mem | awk '{print $3/$2 * 100.0}')"
 
 # System Info Variables
 SYS_TYPE=$(uname -m)
-SYS_REL=$(cat /etc/issue.net)
+SYS_REL="$(lsb_release -d | cut -d ':' -f 2 | sed -e 's/^[[:space:]]*//')"
 SYS_KERNEL_NAME=$(uname -s)
 SYS_KERNEL_REL=$(uname -r)
 SYS_KERNEL_VER="${SYS_KERNEL_NAME} ${SYS_KERNEL_REL}"
