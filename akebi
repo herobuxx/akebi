@@ -30,7 +30,7 @@ SES_SHELL=${SHELL}
 MACHINE_UPTIME=$(uptime -p | sed 's/up //')
 
 # Display Info Variables
-DISPLAY_RES=$(xdpyinfo  | grep -oP 'dimensions:\s+\K\S+')
+DISPLAY_RES=$(xrandr |awk '/\*/ {print $1}')
 
 # The main interface
 echo -e "=========================================================="
