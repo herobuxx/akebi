@@ -1,0 +1,18 @@
+name: Script Testing
+on:
+  push:
+    branches: [ '*' ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: Actions
+    steps:
+      - name: Download Setup script
+        uses: actions/checkout@v2
+
+      - name: Install Akebi
+        run: ./install.sh
+
+      - name: Test Akebi
+        run: akebi
