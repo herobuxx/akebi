@@ -1,7 +1,7 @@
 # Akebi - Simple Bash System Information  
 [![Script Testing](https://github.com/herobuxx/akebi/actions/workflows/test.yml/badge.svg)](https://github.com/herobuxx/akebi/actions/workflows/test.yml)  
-  
-A simple bash script to show informatiopn of your Linux System.
+
+A simple bash script to show information of your Linux System.
 
 ## Usage
 There's no special stuff yet. Just type:
@@ -10,15 +10,21 @@ $ akebi
 ```
 
 ## Installation
-To install Akebi on your system, type:
+To install Akebi to your system, type:
 ```
 $ git clone https://github.com/herobuxx/akebi
 $ cd akebi
 $ bash install.sh
 ```
 
+But, if you are not running Ubuntu/Debian, you have to install dependencies listed [here](https://github.com/herobuxx/akebi#dependencies). Then, run:
+```
+# make
+# make install
+```
+
 ## Dependencies
-Akebi uses following packages/binaries to show informayion of your system
+Akebi uses following packages/binaries to show informations of your system
 - ```cat```
 - ```lscpu```
 - ```grep```
