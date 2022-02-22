@@ -1,4 +1,6 @@
-# Akebi - Simple Bash System Information
+# Akebi - Simple Bash System Information  
+[![Script Testing](https://github.com/herobuxx/akebi/actions/workflows/test.yml/badge.svg)](https://github.com/herobuxx/akebi/actions/workflows/test.yml)  
+  
 A simple bash script to show informatiopn of your Linux System.
 
 ## Usage
