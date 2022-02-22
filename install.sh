@@ -1,6 +1,12 @@
 #!/bin/bash
 
-echo "* Installing Akebi..."
+echo "*[+] Installing Dependecies for Akebi..."
+sudo DEBIAN_FRONTEND=noninteractive \
+    apt install \
+    x11-xserver-utils \
+    dnsutils -y
+
+echo "*[+] Installing Akebi..."
 sudo make > /dev/null
 sudo make install
 echo "*================================"
