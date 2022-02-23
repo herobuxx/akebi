@@ -40,3 +40,6 @@ Akebi uses following packages/binaries to show informations of your system
 
 ## Contribute
 Feel free to contribute anytime you want! Feel free to do a Pull-request
+
+## Links
+- [Akebi To-Do List](https://github.com/herobuxx/akebi/blob/main/TODO.mkdn)
