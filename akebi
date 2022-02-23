@@ -1,5 +1,41 @@
 #!/bin/bash
 
+# Examine user input
+export USER_ACTION="${1}"
+
+case $USER_ACTION in
+
+  --cpu | -c )
+    ACTION="cpu"
+    ;;
+
+  --memory | -m )
+    ACTION="memory"
+    ;;
+
+    system | -s )
+    ACTION="system"
+    ;;
+
+  --help | -h )
+    ACTION="help"
+    ;;
+
+  --about | -a )
+    ACTION="about"
+    ;;
+
+
+  *)
+    ACTION="main"
+    ;;
+esac
+
+############################################
+#                                          #
+#        Let's Grab the infromations       #
+#                                          #
+############################################
 # CPU Info Variables
 CPU_MODEL="$(lscpu | grep -oP 'Model name:\s*\K.+')"
 CPU_CORES="$(cat /proc/cpuinfo | grep processor | wc -l)"
@@ -32,22 +68,82 @@ MACHINE_UPTIME=$(uptime -p | sed 's/up //')
 # Display Info Variables
 DISPLAY_RES=$(xrandr |awk '/\*/ {print $1}')
 
-# The main interface
-echo -e "=========================================================="
-echo -e "                Akebi - System Information                "
-echo -e "=========================================================="
-echo -e "CPU Model         :  ${CPU_MODEL}"
-echo -e "CPU Core(s)       :  ${CPU_CORES} Core(s)"
-# echo -e "CPU Thread(s)     :  ${CPU_THREADS_TOTAL}Thread(s)"
-echo -e "CPU Usage         :  ${CPU_USAGE}%"
-echo -e "Memory Total      :  ${MEM_TOTAL} MB"
-echo -e "Memory Total      :  ${MEM_USAGE}%"
-echo -e "Installed System  :  ${SYS_REL}"
-echo -e "System Type       :  ${SYS_TYPE}"
-echo -e "Kernel Version    :  ${SYS_KERNEL_VER}"
-echo -e "Public IPA Addr   :  ${PUBLIC_IP}"
-echo -e "Terminal          :  ${SES_TERM}"
-echo -e "Shell             :  ${SES_SHELL}"
-echo -e "Uptime            :  ${MACHINE_UPTIME}"
-echo -e "Screen Resolution :  ${DISPLAY_RES}"
-echo -e "=========================================================="
+
+function do_cpu() {
+    echo -e "=========================================================="
+    echo -e "                  Akebi - CPU Information                 "
+    echo -e "=========================================================="
+    echo -e "CPU Model         :  ${CPU_MODEL}"
+    echo -e "CPU Core(s)       :  ${CPU_CORES} Core(s)"
+    echo -e "CPU Usage         :  ${CPU_USAGE}%"
+    echo -e "=========================================================="
+    echo -e " "
+}
+
+function do_memory() {
+    echo -e "=========================================================="
+    echo -e "                Akebi - Memory Information                "
+    echo -e "=========================================================="
+	echo -e "Memory Total      :  ${MEM_TOTAL} MB"
+	echo -e "Memory Total      :  ${MEM_USAGE}%"
+    echo -e "=========================================================="
+    echo -e " "
+}
+
+function do_system() {
+    echo -e "=========================================================="
+    echo -e "                Akebi - System Information                "
+    echo -e "=========================================================="
+	echo -e "Installed System  :  ${SYS_REL}"
+	echo -e "System Type       :  ${SYS_TYPE}"
+	echo -e "Kernel Version    :  ${SYS_KERNEL_VER}"
+	echo -e "Terminal          :  ${SES_TERM}"
+	echo -e "Shell             :  ${SES_SHELL}"
+	echo -e "Uptime            :  ${MACHINE_UPTIME}"
+    echo -e "=========================================================="}
+    echo -e " "
+}
+
+function do_help() {
+    echo -e "This is Akebi! A simple bash scipt to show your Linux System Information"
+    echo -e " "
+    echo -e "Usage: akebi [OPTION]"
+    echo -e " "
+    echo -e "Available Options:"
+    echo -e " "
+    echo -e "  -a, --about    Show About Akebi"
+    echo -e "  -c, --cpu      Show Your CPU infromation"
+    echo -e "  -h, --help     Show Help page. You are actually readong it right now!"
+    echo -e "  -m, --memory   Show Your Memory infromation"
+    echo -e "  -m, --system   Show Your System infromation"
+    echo -e " "
+}
+
+function do_about() {
+    echo "Akebi - A Simple Bash Script to show your System Information"
+    echo -e " "
+}
+
+function do_main() {
+	# The main interface
+	echo -e "=========================================================="
+	echo -e "                Akebi - System Information                "
+	echo -e "=========================================================="
+	echo -e "CPU Model         :  ${CPU_MODEL}"
+	echo -e "CPU Core(s)       :  ${CPU_CORES} Core(s)"
+	echo -e "CPU Usage         :  ${CPU_USAGE}%"
+	echo -e "Memory Total      :  ${MEM_TOTAL} MB"
+	echo -e "Memory Total      :  ${MEM_USAGE}%"
+	echo -e "Installed System  :  ${SYS_REL}"
+	echo -e "System Type       :  ${SYS_TYPE}"
+	echo -e "Kernel Version    :  ${SYS_KERNEL_VER}"
+	echo -e "Public IPA Addr   :  ${PUBLIC_IP}"
+	echo -e "Terminal          :  ${SES_TERM}"
+	echo -e "Shell             :  ${SES_SHELL}"
+	echo -e "Uptime            :  ${MACHINE_UPTIME}"
+	echo -e "Screen Resolution :  ${DISPLAY_RES}"
+	echo -e "=========================================================="
+    echo -e " "
+}
+
+do_${ACTION}
