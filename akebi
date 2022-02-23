@@ -85,7 +85,7 @@ function do_memory() {
     echo -e "                Akebi - Memory Information                "
     echo -e "=========================================================="
 	echo -e "Memory Total      :  ${MEM_TOTAL} MB"
-	echo -e "Memory Total      :  ${MEM_USAGE}%"
+	echo -e "Memory Usage      :  ${MEM_USAGE}%"
     echo -e "=========================================================="
     echo -e " "
 }
@@ -133,7 +133,7 @@ function do_main() {
 	echo -e "CPU Core(s)       :  ${CPU_CORES} Core(s)"
 	echo -e "CPU Usage         :  ${CPU_USAGE}%"
 	echo -e "Memory Total      :  ${MEM_TOTAL} MB"
-	echo -e "Memory Total      :  ${MEM_USAGE}%"
+	echo -e "Memory Usage      :  ${MEM_USAGE}%"
 	echo -e "Installed System  :  ${SYS_REL}"
 	echo -e "System Type       :  ${SYS_TYPE}"
 	echo -e "Kernel Version    :  ${SYS_KERNEL_VER}"
