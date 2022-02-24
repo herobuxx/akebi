@@ -1,8 +1,10 @@
 # To Do list for Akebi
 
-- [ ] (Add versioning info)
-- [ ] (Add configuration file per user)
-- [ ] (Rework user inputed options)
-- [ ] (Add CPU Thread Numbers)
-- [ ] (Make it works with MacOS)
-- [ ] (Let's use lolcat, ig)
+- [X] Add versioning info
+- [ ] Add configuration file per user
+- [ ] Rework user inputed options
+- [ ] Add CPU Thread Numbers
+- [X] Make it works with MacOS (Partially)
+- [ ] Let's use lolcat, ig
+- [ ] Define Windows Version
+- [ ] Get Public IP in Windows too

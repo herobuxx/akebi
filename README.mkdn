@@ -9,6 +9,11 @@ There's no special stuff yet. Just type:
 $ akebi
 ```
 
+## Supported OS
+- Linux
+- macOS
+- Windows (Partially)
+
 ## Installation
 To install Akebi to your system, type:
 ```
@@ -17,7 +22,7 @@ $ cd akebi
 $ bash install.sh
 ```
 
-But, if you are not running Ubuntu/Debian, you have to install dependencies listed [here](https://github.com/herobuxx/akebi#dependencies). Then, run:
+But, if you are not running Ubuntu/Debian, ArchLinux and any other distro with pacman package manager you have to install dependencies listed [here](https://github.com/herobuxx/akebi#dependencies). Then, run:
 ```
 # make
 # make install
