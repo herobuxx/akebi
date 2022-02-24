@@ -4,7 +4,8 @@ echo "*[+] Installing Dependecies for Akebi..."
 sudo DEBIAN_FRONTEND=noninteractive \
     apt install \
     x11-xserver-utils \
-    dnsutils -y
+    dnsutils \
+    wget -y
 
 echo "*[+] Installing Akebi..."
 sudo make > /dev/null

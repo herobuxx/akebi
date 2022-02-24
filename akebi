@@ -56,7 +56,7 @@ SYS_KERNEL_REL=$(uname -r)
 SYS_KERNEL_VER="${SYS_KERNEL_NAME} ${SYS_KERNEL_REL}"
 
 # Network Info Variables
-PUBLIC_IP="$(dig +short myip.opendns.com @resolver1.opendns.com)"
+PUBLIC_IP="$(wget -qO - icanhazip.com)"
 
 # Session Info Variables
 SES_TERM=${TERM}
