@@ -113,7 +113,7 @@ fi
 SYS_TYPE=$(uname -m)
 
 if [[ "${KERNEL_NAME}" == "mac" ]]; then
-  SYS_REL=$(sw_vers | grep ProductVersion | awk '{print $1}')
+  SYS_REL="macOS $(sw_vers | grep ProductVersion | awk '{print $2}')"
 elif [[ "${KERNEL_NAME}" == "linux" ]]; then
   SYS_REL="$(lsb_release -d | cut -d ':' -f 2 | sed -e 's/^[[:space:]]*//')"
 elif [[ "${KERNEL_NAME}" == "windows" ]]; then
@@ -132,7 +132,6 @@ if [[ "${KERNEL_NAME}" == "windows" ]]; then
 else
   PUBLIC_IP="$(wget -qO - icanhazip.com)"
 fi
-
 
 
 # Session Info Variables
