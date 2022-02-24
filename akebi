@@ -88,8 +88,8 @@ function do_memory() {
     echo -e "=========================================================="
     echo -e "                Akebi - Memory Information                "
     echo -e "=========================================================="
-	echo -e "Memory Total      :  ${MEM_TOTAL} MB"
-	echo -e "Memory Usage      :  ${MEM_USAGE}%"
+  echo -e "Memory Total      :  ${MEM_TOTAL} MB"
+  echo -e "Memory Usage      :  ${MEM_USAGE}%"
     echo -e "=========================================================="
     echo -e " "
 }
@@ -98,12 +98,12 @@ function do_system() {
     echo -e "=========================================================="
     echo -e "                Akebi - System Information                "
     echo -e "=========================================================="
-	echo -e "Installed System  :  ${SYS_REL}"
-	echo -e "System Type       :  ${SYS_TYPE}"
-	echo -e "Kernel Version    :  ${SYS_KERNEL_VER}"
-	echo -e "Terminal          :  ${SES_TERM}"
-	echo -e "Shell             :  ${SES_SHELL}"
-	echo -e "Uptime            :  ${MACHINE_UPTIME}"
+  echo -e "Installed System  :  ${SYS_REL}"
+  echo -e "System Type       :  ${SYS_TYPE}"
+  echo -e "Kernel Version    :  ${SYS_KERNEL_VER}"
+  echo -e "Terminal          :  ${SES_TERM}"
+  echo -e "Shell             :  ${SES_SHELL}"
+  echo -e "Uptime            :  ${MACHINE_UPTIME}"
     echo -e "=========================================================="}
     echo -e " "
 }
@@ -131,25 +131,65 @@ function do_version() {
 }
 
 function do_main() {
-	# The main interface
-	echo -e "=========================================================="
-	echo -e "                Akebi - System Information                "
-	echo -e "=========================================================="
-	echo -e "CPU Model         :  ${CPU_MODEL}"
-	echo -e "CPU Core(s)       :  ${CPU_CORES} Core(s)"
-	echo -e "CPU Usage         :  ${CPU_USAGE}%"
-	echo -e "Memory Total      :  ${MEM_TOTAL} MB"
-	echo -e "Memory Usage      :  ${MEM_USAGE}%"
-	echo -e "Installed System  :  ${SYS_REL}"
-	echo -e "System Type       :  ${SYS_TYPE}"
-	echo -e "Kernel Version    :  ${SYS_KERNEL_VER}"
-	echo -e "Public IPA Addr   :  ${PUBLIC_IP}"
-	echo -e "Terminal          :  ${SES_TERM}"
-	echo -e "Shell             :  ${SES_SHELL}"
-	echo -e "Uptime            :  ${MACHINE_UPTIME}"
-	echo -e "Screen Resolution :  ${DISPLAY_RES}"
-	echo -e "=========================================================="
-    echo -e " "
+  # The main interface
+  echo -e "=========================================================="
+  echo -e "                Akebi - System Information                "
+  echo -e "=========================================================="
+  if [[ "${CPU_MODEL}" != "" ]]; then
+  echo -e "CPU Model         :  ${CPU_MODEL}"
+  fi
+
+  if [[ "${CPU_CORES}" != "" ]]; then
+  echo -e "CPU Core(s)       :  ${CPU_CORES} Core(s)"
+  fi
+
+  if [[ "${CPU_USAGE}" != "" ]]; then
+  echo -e "CPU Usage         :  ${CPU_USAGE}%"
+  fi
+
+  if [[ "${MEM_TOTAL}" != "" ]]; then
+  echo -e "Memory Total      :  ${MEM_TOTAL} MB"
+  fi
+
+  if [[ "${MEM_USAGE}" != "" ]]; then
+  echo -e "Memory Usage      :  ${MEM_USAGE}%"
+  fi
+
+  if [[ "${SYS_REL}" != "" ]]; then
+  echo -e "Installed System  :  ${SYS_REL}"
+  fi
+
+  if [[ "${SYS_TYPE}" != "" ]]; then
+  echo -e "System Type       :  ${SYS_TYPE}"
+  fi
+
+  if [[ "${SYS_KERNEL_VER}" != "" ]]; then
+  echo -e "Kernel Version    :  ${SYS_KERNEL_VER}"
+  fi
+
+  if [[ "${PUBLIC_IP}" != "" ]]; then
+  echo -e "Public IPA Addr   :  ${PUBLIC_IP}"
+  fi
+
+  if [[ "${SES_TERM}" != "" ]]; then
+  echo -e "Terminal          :  ${SES_TERM}"
+  fi
+
+  if [[ "${SES_SHELL}" != "" ]]; then
+  echo -e "Shell             :  ${SES_SHELL}"
+  fi
+
+  # Screen Resolution
+  if [[ "${MACHINE_UPTIME}" != "" ]]; then
+    echo -e "Uptime            :  ${MACHINE_UPTIME}"
+  fi
+
+  # Screen Resolution
+  if [[ "${DISPLAY_RES}" != "" ]]; then
+    echo -e "Screen Resolution :  ${DISPLAY_RES}"
+  fi
+  echo -e "=========================================================="
+  echo -e " "
 }
 
 do_${ACTION}
