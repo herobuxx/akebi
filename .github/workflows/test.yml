@@ -4,7 +4,7 @@ on:
     branches: [ '*' ]
 
 jobs:
-  build:
+  Ubuntu:
     runs-on: ubuntu-latest
     environment: Actions
     steps:
@@ -16,3 +16,13 @@ jobs:
 
       - name: Test Akebi
         run: akebi
+
+  macOS:
+    runs-on: macos-latest
+    environment: Actions
+    steps:
+      - name: Download Setup script
+        uses: actions/checkout@v2
+
+      - name: Test Akebi
+        run: ./akebi
