@@ -31,48 +31,158 @@ case $USER_ACTION in
     ;;
 esac
 
+# Define My OS
+BASE_KERNEL_NAME=$(uname -s)
+case $BASE_KERNEL_NAME in
+
+  Linux|GNU) 
+    KERNEL_NAME="linux"
+  ;;
+
+  Darwin) 
+    KERNEL_NAME="mac"
+  ;;
+
+  CYGWIN*|MSYS*|MINGW*) 
+    KERNEL_NAME="windows"
+  ;;
+esac
+
 ############################################
 #                                          #
 #        Let's Grab the informations       #
 #                                          #
 ############################################
-# Akebi Information
+
+###########################################
+# Akebi version                           #
+###########################################
+
 AKEBI_VERSION="1.1"
-AKEBI_COMMIT_HEAD=$(cat /usr/lib/akebi/commit-head)
 
-# CPU Info Variables
-CPU_MODEL="$(lscpu | grep -oP 'Model name:\s*\K.+')"
-CPU_CORES="$(cat /proc/cpuinfo | grep processor | wc -l)"
-CPU_THREADS="$(lscpu | grep -oP 'Thread\(s\) per core:\s*\K.+')"
-CPU_THREADS_TOTAL="$(($CPU_THREADS * $CPU_CORES))"                                     #
-CPU_USAGE=$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage "%"}')
+if [[ -f "/usr/lib/akebi/commit-head" ]]
+then
+  AKEBI_COMMIT_HEAD=$(cat /usr/lib/akebi/commit-head)
+else
+  AKEBI_COMMIT_HEAD="HEAD commit info is not available"
+fi
+###########################################
+# CPU and Memory Info                     #
+###########################################
 
-# Memory Info Variables
-MEM_TOTAL_RAW=$(grep MemTotal /proc/meminfo | sed -r 's/^MemTotal:       //' | sed -e 's/kB//')
-MEM_TOTAL=$((MEM_TOTAL_RAW / 1024))
-MEM_USAGE="$(free | grep Mem | awk '{print $3/$2 * 100.0}')"
+# CPU Model Name
+if [[ "${KERNEL_NAME}" == "mac" ]]; then
+  CPU_MODEL=$(sysctl -n machdep.cpu.brand_string)
+else
+  CPU_MODEL="$(awk -F':' '/^model name/ {split($2, A, " @"); print A[1]; exit}' /proc/cpuinfo | sed 's/ //')"
+fi
+
+# CPU Core Number
+if [[ "${KERNEL_NAME}" == "mac" ]]; then
+  CPU_CORES="$(sysctl -n hw.physicalcpu_max)"
+else
+  CPU_CORES="$(nproc --all)"
+fi
+
+# CPU Core Number
+if [[ "${KERNEL_NAME}" == "mac" ]]; then
+  CPU_USAGE="$(ps -A -o %cpu | awk '{s+=$1} END {print s "%"}')"
+else
+  CPU_USAGE=$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage "%"}')
+fi
+
+# Memory Total Number
+if [[ "${KERNEL_NAME}" == "mac" ]]; then
+  MEM_TOTAL=$(echo "$(sysctl -n hw.memsize)" / 1024^2 | bc)
+else
+  MEM_TOTAL=$(($(awk '/MemTotal/ {print $2}' /proc/meminfo) / 1024))
+fi
+
+# Memory free
+if [[ "${KERNEL_NAME}" == "mac" ]]; then
+  MEM_FREE="$(($(vm_stat | awk '/free/ {gsub(/\./, "", $3); print $3}') / 1024))"
+else
+  MEM_FREE="$(($(awk '/MemFree/ {print $2}' /proc/meminfo) / 1024))"
+fi
+
+###########################################
+# System Info                             #
+###########################################
 
 # System Info Variables
 SYS_TYPE=$(uname -m)
-SYS_REL="$(lsb_release -d | cut -d ':' -f 2 | sed -e 's/^[[:space:]]*//')"
+
+if [[ "${KERNEL_NAME}" == "mac" ]]; then
+  SYS_REL=$(sw_vers | grep ProductVersion | awk '{print $1}')
+elif [[ "${KERNEL_NAME}" == "linux" ]]; then
+  SYS_REL="$(lsb_release -d | cut -d ':' -f 2 | sed -e 's/^[[:space:]]*//')"
+elif [[ "${KERNEL_NAME}" == "windows" ]]; then
+  SYS_REL="Microsoft(R) Windows(TM)"
+else
+  SYS_REL=""
+fi
+
 SYS_KERNEL_NAME=$(uname -s)
 SYS_KERNEL_REL=$(uname -r)
 SYS_KERNEL_VER="${SYS_KERNEL_NAME} ${SYS_KERNEL_REL}"
 
 # Network Info Variables
-PUBLIC_IP="$(wget -qO - icanhazip.com)"
+if [[ "${KERNEL_NAME}" == "windows" ]]; then
+  PUBLIC_IP=""
+else
+  PUBLIC_IP="$(wget -qO - icanhazip.com)"
+fi
+
+
 
 # Session Info Variables
 SES_TERM=${TERM}
 SES_SHELL=${SHELL}
 
 # Machine Info Variables
-MACHINE_UPTIME=$(uptime -p | sed 's/up //')
+if [[ "${KERNEL_NAME}" == "mac" ]]; then
+  boot_s_sys=$(sysctl -n kern.boottime)
+  boot_s_raw=${boot_s_sys/\{ sec = }
+  boot=${boot_s_raw/,*}
+
+  now=$(date +%s)
+  boot_s=$((now - boot))
+
+else
+  if [[ -r /proc/uptime ]]; then
+    boot_s_raw=$(< /proc/uptime)
+    boot_s=${boot_s_raw/.*}
+  else
+    boot_s_raw=$(date -d"$(uptime -s)" +%s)
+    now=$(date +%s)
+    boot_s=$((now - boot_s_raw))
+  fi
+fi
+
+# Boot times
+boot_min="$((boot_s / 60 % 60))"
+boot_hour="$((boot_s / 60 / 60 % 24))"
+boot_day="$((boot_s / 60 / 60 / 24))"
+
+# Show day, and hours conditionally
+if [[ $boot_min > 59 ]]
+then
+  MACHINE_UPTIME="${boot_hour} hour(s), ${boot_min} minutes(s)"
+elif [[ $boot_hour > 23 ]]
+then
+  MACHINE_UPTIME="${boot_day} day(s), ${boot_hour} hour(s), ${boot_min} minutes(s)"
+else
+  MACHINE_UPTIME="${boot_min} minutes(s)"
+fi
 
 # Display Info Variables
-DISPLAY_RES=$(xrandr |awk '/\*/ {print $1}')
+if [[ "${KERNEL_NAME}" == "linux" ]]; then
+  DISPLAY_RES=$(xrandr |awk '/\*/ {print $1}')
+else
+  DISPLAY_RES=""
+fi
 
-
+# Start the functions
 function do_cpu() {
   echo -e "=========================================================="
   echo -e "                  Akebi - CPU Information                 "
@@ -89,7 +199,7 @@ function do_memory() {
   echo -e "                Akebi - Memory Information                "
   echo -e "=========================================================="
   echo -e "Memory Total      :  ${MEM_TOTAL} MB"
-  echo -e "Memory Usage      :  ${MEM_USAGE}%"
+  echo -e "Memory Free       :  ${MEM_FREE} MB"
   echo -e "=========================================================="
   echo -e " "
 }
@@ -151,8 +261,8 @@ function do_main() {
     echo -e "Memory Total      :  ${MEM_TOTAL} MB"
   fi
 
-  if [[ "${MEM_USAGE}" != "" ]]; then
-    echo -e "Memory Usage      :  ${MEM_USAGE}%"
+  if [[ "${MEM_FREE}" != "" ]]; then
+    echo -e "Memory Free       :  ${MEM_FREE} MB"
   fi
 
   if [[ "${SYS_REL}" != "" ]]; then
