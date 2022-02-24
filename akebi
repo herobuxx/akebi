@@ -33,7 +33,7 @@ esac
 
 ############################################
 #                                          #
-#        Let's Grab the infromations       #
+#        Let's Grab the informations       #
 #                                          #
 ############################################
 # Akebi Information
@@ -115,10 +115,10 @@ function do_help() {
   echo -e " "
   echo -e "Available Options:"
   echo -e " "
-  echo -e "  -c, --cpu      Show Your CPU infromation"
+  echo -e "  -c, --cpu      Show Your CPU information"
   echo -e "  -h, --help     Show Help page. You are actually readong it right now!"
-  echo -e "  -m, --memory   Show Your Memory infromation"
-  echo -e "  -m, --system   Show Your System infromation"
+  echo -e "  -m, --memory   Show Your Memory information"
+  echo -e "  -m, --system   Show Your System information"
   echo -e "  -v, --version  Show About Akebi Version"
   echo -e " "
 }
