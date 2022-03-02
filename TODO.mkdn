@@ -8,3 +8,4 @@
 - [ ] Let's use lolcat, ig
 - [ ] Define Windows Version
 - [ ] Get Public IP in Windows too
+- [ ] Add detailed hardware information
