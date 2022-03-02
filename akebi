@@ -211,9 +211,17 @@ function do_cpu() {
   echo -e "=========================================================="
   echo -e "                  Akebi - CPU Information                 "
   echo -e "=========================================================="
-  echo -e "CPU Model         :  ${CPU_MODEL}"
-  echo -e "CPU Core(s)       :  ${CPU_CORES} Core(s)"
-  echo -e "CPU Usage         :  ${CPU_USAGE}%"
+  if [[ "${CPU_MODEL}" != "" ]]; then
+    echo -e "CPU Model         :  ${CPU_MODEL}"
+  fi
+
+  if [[ "${CPU_CORES}" != "" ]]; then
+    echo -e "CPU Core(s)       :  ${CPU_CORES} Core(s)"
+  fi
+
+  if [[ "${CPU_USAGE}" != "" ]]; then
+    echo -e "CPU Usage         :  ${CPU_USAGE}%"
+  fi
   echo -e "=========================================================="
   echo -e " "
 }
@@ -222,8 +230,13 @@ function do_memory() {
   echo -e "=========================================================="
   echo -e "                Akebi - Memory Information                "
   echo -e "=========================================================="
-  echo -e "Memory Total      :  ${MEM_TOTAL} MB"
-  echo -e "Memory Free       :  ${MEM_FREE} MB"
+  if [[ "${MEM_TOTAL}" != "" ]]; then
+    echo -e "Memory Total      :  ${MEM_TOTAL} MB"
+  fi
+
+  if [[ "${MEM_FREE}" != "" ]]; then
+    echo -e "Memory Free       :  ${MEM_FREE} MB"
+  fi
   echo -e "=========================================================="
   echo -e " "
 }
@@ -232,12 +245,39 @@ function do_system() {
   echo -e "=========================================================="
   echo -e "                Akebi - System Information                "
   echo -e "=========================================================="
-  echo -e "Installed System  :  ${SYS_REL}"
-  echo -e "System Type       :  ${SYS_TYPE}"
-  echo -e "Kernel Version    :  ${SYS_KERNEL_VER}"
-  echo -e "Terminal          :  ${SES_TERM}"
-  echo -e "Shell             :  ${SES_SHELL}"
-  echo -e "Uptime            :  ${MACHINE_UPTIME}"
+
+
+  if [[ "${SYS_REL}" != "" ]]; then
+    echo -e "Installed OS      :  ${SYS_REL}"
+  fi
+
+  if [[ "${ANDROID_BUILD_TYPE}" != "" ]]; then
+    echo -e "Build Type        :  ${ANDROID_BUILD_TYPE}"
+  fi
+  
+  if [[ "${ANDROID_BUILD_NUM}" != "" ]]; then
+    echo -e "Build Number      :  ${ANDROID_BUILD_NUM}"
+  fi
+  
+  if [[ "${SYS_TYPE}" != "" ]]; then
+    echo -e "System Type       :  ${SYS_TYPE}"
+  fi
+
+  if [[ "${SYS_KERNEL_VER}" != "" ]]; then
+    echo -e "Kernel Version    :  ${SYS_KERNEL_VER}"
+  fi
+  
+  if [[ "${SES_TERM}" != "" ]]; then
+    echo -e "Terminal          :  ${SES_TERM}"
+  fi
+
+  if [[ "${SES_SHELL}" != "" ]]; then
+    echo -e "Shell             :  ${SES_SHELL}"
+  fi
+
+  if [[ "${MACHINE_UPTIME}" != "" ]]; then
+    echo -e "Uptime            :  ${MACHINE_UPTIME}"
+  fi
   echo -e "=========================================================="}
   echo -e " "
 }
