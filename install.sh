@@ -7,11 +7,15 @@ if [[ "$(command -v apt)" != "" ]]; then
 	    apt install \
     	x11-xserver-utils \
     	dnsutils \
-    	wget -y
+    	wget \
+	lsb-release  -y
 elif [[ "$(command -v pacman)" != "" ]]; then
    sudo pacman -Sy --noconfirm \
+	make \
+	wget \
         xorg-xrandr \
-        dig
+	bind \
+	lsb-release
 fi
 
 echo "*[+] Installing Akebi..."
