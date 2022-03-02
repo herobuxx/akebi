@@ -32,19 +32,25 @@ case $USER_ACTION in
 esac
 
 # Define My OS
-BASE_KERNEL_NAME=$(uname -s)
-case $BASE_KERNEL_NAME in
+GETPROP_AVAILABLE="$(command -v getprop)"
+KERNEL_NAME=$(uname -s)
+case $KERNEL_NAME in
 
   Linux|GNU) 
-    KERNEL_NAME="linux"
+    if [[ $GETPROP_AVAILABLE != "" ]]
+    then
+       OS_TYPE="android"
+    else
+       OS_TYPE="linux"
+    fi
   ;;
 
   Darwin) 
-    KERNEL_NAME="mac"
+    OS_TYPE="mac"
   ;;
 
   CYGWIN*|MSYS*|MINGW*) 
-    KERNEL_NAME="windows"
+    OS_TYPE="windows"
   ;;
 esac
 
@@ -71,35 +77,37 @@ fi
 ###########################################
 
 # CPU Model Name
-if [[ "${KERNEL_NAME}" == "mac" ]]; then
+if [[ "${OS_TYPE}" == "mac" ]]; then
   CPU_MODEL=$(sysctl -n machdep.cpu.brand_string)
 else
   CPU_MODEL="$(awk -F':' '/^model name/ {split($2, A, " @"); print A[1]; exit}' /proc/cpuinfo | sed 's/ //')"
 fi
 
 # CPU Core Number
-if [[ "${KERNEL_NAME}" == "mac" ]]; then
+if [[ "${OS_TYPE}" == "mac" ]]; then
   CPU_CORES="$(sysctl -n hw.physicalcpu_max)"
 else
   CPU_CORES="$(nproc --all)"
 fi
 
 # CPU Core Number
-if [[ "${KERNEL_NAME}" == "mac" ]]; then
+if [[ "${OS_TYPE}" == "mac" ]]; then
   CPU_USAGE="$(ps -A -o %cpu | awk '{s+=$1} END {print s "%"}')"
+elif [[ "${OS_TYPE}" == "android" ]]; then
+  CPU_USAGE=""
 else
   CPU_USAGE=$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage "%"}')
 fi
 
 # Memory Total Number
-if [[ "${KERNEL_NAME}" == "mac" ]]; then
+if [[ "${OS_TYPE}" == "mac" ]]; then
   MEM_TOTAL=$(echo "$(sysctl -n hw.memsize)" / 1024^2 | bc)
 else
   MEM_TOTAL=$(($(awk '/MemTotal/ {print $2}' /proc/meminfo) / 1024))
 fi
 
 # Memory free
-if [[ "${KERNEL_NAME}" == "mac" ]]; then
+if [[ "${OS_TYPE}" == "mac" ]]; then
   MEM_FREE="$(($(vm_stat | awk '/free/ {gsub(/\./, "", $3); print $3}') / 1024))"
 else
   MEM_FREE="$(($(awk '/MemFree/ {print $2}' /proc/meminfo) / 1024))"
@@ -112,22 +120,29 @@ fi
 # System Info Variables
 SYS_TYPE=$(uname -m)
 
-if [[ "${KERNEL_NAME}" == "mac" ]]; then
+if [[ "${OS_TYPE}" == "mac" ]]; then
   SYS_REL="macOS $(sw_vers | grep ProductVersion | awk '{print $2}')"
-elif [[ "${KERNEL_NAME}" == "linux" ]]; then
+elif [[ "${OS_TYPE}" == "linux" ]]; then
   SYS_REL="$(lsb_release -d | cut -d ':' -f 2 | sed -e 's/^[[:space:]]*//')"
-elif [[ "${KERNEL_NAME}" == "windows" ]]; then
+elif [[ "${OS_TYPE}" == "windows" ]]; then
   SYS_REL="Microsoft(R) Windows(TM)"
+elif [[ "${OS_TYPE}" == "android" ]]; then
+  ANDROID_VER_NUM="$(getprop ro.build.version.release)"
+  ANDROID_VER="Android(TM) $ANDROID_VER_NUM"
+  SYS_REL="$ANDROID_VER"
 else
   SYS_REL=""
 fi
 
-SYS_KERNEL_NAME=$(uname -s)
+
+SYS_OS_TYPE=$(uname -s)
 SYS_KERNEL_REL=$(uname -r)
-SYS_KERNEL_VER="${SYS_KERNEL_NAME} ${SYS_KERNEL_REL}"
+SYS_KERNEL_VER="${SYS_OS_TYPE} ${SYS_KERNEL_REL}"
 
 # Network Info Variables
-if [[ "${KERNEL_NAME}" == "windows" ]]; then
+if [[ "${OS_TYPE}" == "windows" ]]; then
+  PUBLIC_IP=""
+elif [[ "${OS_TYPE}" == "android" ]]; then
   PUBLIC_IP=""
 else
   PUBLIC_IP="$(wget -qO - icanhazip.com)"
@@ -139,7 +154,7 @@ SES_TERM=${TERM}
 SES_SHELL=${SHELL}
 
 # Machine Info Variables
-if [[ "${KERNEL_NAME}" == "mac" ]]; then
+if [[ "${OS_TYPE}" == "mac" ]]; then
   boot_s_sys=$(sysctl -n kern.boottime)
   boot_s_raw=${boot_s_sys/\{ sec = }
   boot=${boot_s_raw/,*}
@@ -175,10 +190,20 @@ else
 fi
 
 # Display Info Variables
-if [[ "${KERNEL_NAME}" == "linux" ]]; then
+if [[ "${OS_TYPE}" == "linux" ]]; then
   DISPLAY_RES=$(xrandr |awk '/\*/ {print $1}')
 else
   DISPLAY_RES=""
+fi
+
+# Add other stuff for Android
+if [[ "${OS_TYPE}" == "android" ]]; then
+  ANDROID_BUILD_NUM="$(getprop ro.build.id)"
+  ANDROID_BUILD_TYPE="$(getprop ro.build.type)"
+
+else
+  ANDROID_BUILD_NUM=""
+  ANDROID_BUILD_TYPE=""
 fi
 
 # Start the functions
@@ -265,9 +290,17 @@ function do_main() {
   fi
 
   if [[ "${SYS_REL}" != "" ]]; then
-    echo -e "Installed System  :  ${SYS_REL}"
+    echo -e "Installed OS      :  ${SYS_REL}"
   fi
 
+  if [[ "${ANDROID_BUILD_TYPE}" != "" ]]; then
+    echo -e "Build Type        :  ${ANDROID_BUILD_TYPE}"
+  fi
+  
+  if [[ "${ANDROID_BUILD_NUM}" != "" ]]; then
+    echo -e "Build Number      :  ${ANDROID_BUILD_NUM}"
+  fi
+  
   if [[ "${SYS_TYPE}" != "" ]]; then
     echo -e "System Type       :  ${SYS_TYPE}"
   fi
