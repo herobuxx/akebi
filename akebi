@@ -363,11 +363,13 @@ function do_main() {
     echo -e "Shell             :  ${SES_SHELL}"
   fi
 
-  if [[ "${MACHINE_UPTIME}" != "" ]]; then
-    if [[ "${OS_TYPE}" == "linux" ]]; then
-      echo -e "Uptime            :  $LINUX_MACHINE_UPTIME}"
-    else
-      echo -e "Uptime            :  $LMACHINE_UPTIME}"
+  if [[ "${OS_TYPE}" == "linux" ]]; then
+    if [[ "${MACHINE_UPTIME}" != "" ]]; then
+      echo -e "Uptime            :  ${LINUX_MACHINE_UPTIME}"
+    fi
+  else
+    if [[ "${MACHINE_UPTIME}" != "" ]]; then
+      echo -e "Uptime            :  ${LMACHINE_UPTIME}"
     fi
   fi
 
