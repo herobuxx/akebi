@@ -13,7 +13,7 @@ case $USER_ACTION in
     ACTION="memory"
     ;;
 
-    system | -s )
+  --system | -s )
     ACTION="system"
     ;;
 
@@ -25,6 +25,9 @@ case $USER_ACTION in
     ACTION="version"
     ;;
 
+  --ip | -i )
+    ACTION="ip"
+    ;;
 
   *)
     ACTION="main"
@@ -306,6 +309,16 @@ function do_version() {
   echo -e " "
 }
 
+function do_ip() {
+  echo -e "=========================================================="
+  echo -e "                Akebi - Memory Information                "
+  echo -e "=========================================================="
+  if [[ "${PUBLIC_IP}" != "" ]]; then
+    echo -e "Public IP Address :  ${PUBLIC_IP}"
+  fi
+  echo -e "=========================================================="
+}
+
 function do_main() {
   # The main interface
   echo -e "=========================================================="
@@ -349,10 +362,6 @@ function do_main() {
 
   if [[ "${SYS_KERNEL_VER}" != "" ]]; then
     echo -e "Kernel Version    :  ${SYS_KERNEL_VER}"
-  fi
-
-  if [[ "${PUBLIC_IP}" != "" ]]; then
-    echo -e "Public IPA Addr   :  ${PUBLIC_IP}"
   fi
 
   if [[ "${SES_TERM}" != "" ]]; then
