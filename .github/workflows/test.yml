@@ -15,7 +15,7 @@ jobs:
         run: ./install.sh
 
       - name: Test Akebi
-        run: akebi
+        run: bash test-akebi.sh
 
   macOS:
     runs-on: macos-latest
