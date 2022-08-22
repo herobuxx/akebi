@@ -296,6 +296,7 @@ function do_help() {
   echo -e " "
   echo -e "  -c, --cpu      Show Your CPU information"
   echo -e "  -h, --help     Show Help page. You are actually reading it right now!"
+  echo -e "  -i, --ip       Show your Public IP Address"
   echo -e "  -m, --memory   Show Your Memory information"
   echo -e "  -m, --system   Show Your System information"
   echo -e "  -v, --version  Show About Akebi Version"
