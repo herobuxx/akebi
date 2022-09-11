@@ -90,7 +90,7 @@ fi
 if [[ "${OS_TYPE}" == "mac" ]]; then
   CPU_CORES="$(sysctl -n hw.physicalcpu_max)"
 else
-  CPU_CORES="$(nproc --all)"
+  CPU_CORES="$(nproc)"
 fi
 
 # CPU Core Number
