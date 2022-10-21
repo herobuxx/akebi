@@ -99,7 +99,7 @@ if [[ "${OS_TYPE}" == "mac" ]]; then
 elif [[ "${OS_TYPE}" == "android" ]]; then
   CPU_USAGE=""
 else
-  CPU_USAGE=$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage "%"}')
+  CPU_USAGE="$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}')"
 fi
 
 # Memory Total Number
