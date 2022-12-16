@@ -9,3 +9,4 @@
 - [ ] Define Windows Version
 - [ ] Get Public IP in Windows too
 - [ ] Add detailed hardware information
+- [ ] Rewrite Akebi in Python (Pykebi)
