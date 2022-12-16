@@ -290,8 +290,14 @@ function do_system() {
     echo -e "Shell             :  ${SES_SHELL}"
   fi
 
-  if [[ "${MACHINE_UPTIME}" != "" ]]; then
-    echo -e "Uptime            :  ${MACHINE_UPTIME}"
+  if [[ "${OS_TYPE}" == "linux" ]]; then
+    if [[ "${MACHINE_UPTIME}" != "" ]]; then
+      echo -e "Uptime            :  ${LINUX_MACHINE_UPTIME}"
+    fi
+  else
+    if [[ "${MACHINE_UPTIME}" != "" ]]; then
+      echo -e "Uptime            :  ${MACHINE_UPTIME}"
+    fi
   fi
 
   echo -e "=========================================================="}
