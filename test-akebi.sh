@@ -8,5 +8,6 @@ akebi -i
 akebi -m
 akebi -s
 akebi -v
+akebi -p
 echo -e "Done!"
 

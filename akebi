@@ -29,6 +29,10 @@ case $USER_ACTION in
     ACTION="ip"
     ;;
 
+  --pr | -p )
+    ACTION="pretty"
+    ;;
+
   *)
     ACTION="main"
     ;;
@@ -115,6 +119,9 @@ if [[ "${OS_TYPE}" == "mac" ]]; then
 else
   MEM_FREE="$(($(awk '/MemFree/ {print $2}' /proc/meminfo) / 1024))"
 fi
+
+MEM_TOTAL_GB="$(($MEM_TOTAL / 1024))"
+MEM_FREE_GB="$(($MEM_FREE / 1024))"
 
 ###########################################
 # System Info                             #
@@ -209,6 +216,10 @@ else
   ANDROID_BUILD_NUM=""
   ANDROID_BUILD_TYPE=""
 fi
+
+# Username and hostname
+THIS_USERNAME=$USER
+THIS_HOSTNAME=$HOSTNAME
 
 # Start the functions
 function do_cpu() {
@@ -390,6 +401,18 @@ function do_main() {
   fi
   echo -e "=========================================================="
   echo -e " "
+}
+
+function do_pretty() {
+  echo -e "$THIS_USERNAME@$THIS_HOSTNAME"
+  echo -e "------"
+  if [[ "${CPU_MODEL}" != "" ]]; then
+    echo -e "${CPU_MODEL}"
+  fi
+  if [[ "${SYS_REL}" != "" ]]; then
+    echo -e "${SYS_REL}"
+  fi
+  echo -e "$MEM_FREE_GB GB free of $MEM_TOTAL_GB GB total RAM"
 }
 
 do_${ACTION}
