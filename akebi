@@ -329,7 +329,7 @@ function do_version() {
 
 function do_ip() {
   echo -e "=========================================================="
-  echo -e "                Akebi - Memory Information                "
+  echo -e "              Akebi - IP Address Information              "
   echo -e "=========================================================="
   if [[ "${PUBLIC_IP}" != "" ]]; then
     echo -e "Public IP Address :  ${PUBLIC_IP}"
