@@ -103,7 +103,7 @@ if [[ "${OS_TYPE}" == "mac" ]]; then
 elif [[ "${OS_TYPE}" == "android" ]]; then
   CPU_USAGE=""
 else
-  CPU_USAGE="$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}')"
+  CPU_USAGE="$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1}')"
 fi
 
 # Memory Total Number
