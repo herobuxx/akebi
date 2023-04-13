@@ -307,7 +307,7 @@ function do_system() {
 function do_help() {
   echo -e "This is Akebi! A simple bash scipt to show your Linux System Information"
   echo -e " "
-  echo -e "Usage: akebi [OPTION]"
+  echo -e "Usage: $0 [OPTION]"
   echo -e " "
   echo -e "Available Options:"
   echo -e " "
