@@ -9,4 +9,4 @@
 - [ ] Define Windows Version
 - [ ] Get Public IP in Windows too
 - [ ] Add detailed hardware information
-- [ ] Rewrite Akebi in Python (Pykebi)
+- [X] Rewrite Akebi in Python - [Work In Progress](https://github.com/herobuxx/akebi.py)
